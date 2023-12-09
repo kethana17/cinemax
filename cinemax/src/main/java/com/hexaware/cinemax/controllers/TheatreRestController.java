@@ -67,4 +67,32 @@ public class TheatreRestController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
+    // Get a theatre by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<TheatreDTO> getTheatreById(@PathVariable int id) {
+        logger.info("Retrieving theatre with ID: {}", id);
+        try {
+            TheatreDTO theatre = theatreService.getTheatreById(id);
+            logger.info("Retrieved theatre with ID: {}", id);
+            return new ResponseEntity<>(theatre, HttpStatus.OK);
+        } catch (TheatreNotFoundException e) {
+            logger.error("Theatre not found for ID: {}", id);
+            throw e;
+        }
+    }
+
+    // Get a theatre by name
+    @GetMapping("/getByName/{name}")
+    public ResponseEntity<TheatreDTO> getTheatreByName(@PathVariable String name) {
+        logger.info("Retrieving theatre with name: {}", name);
+        try {
+            TheatreDTO theatre = theatreService.getTheatreByName(name);
+            logger.info("Retrieved theatre with name: {}", name);
+            return new ResponseEntity<>(theatre, HttpStatus.OK);
+        } catch (TheatreNotFoundException e) {
+            logger.error("Theatre not found for name: {}", name);
+            throw e;
+        }
+    }
 }

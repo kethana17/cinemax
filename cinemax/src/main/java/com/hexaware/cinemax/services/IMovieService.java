@@ -18,4 +18,8 @@ public interface IMovieService {
 
     void removeMovieByName(String name);
 
+	MovieDTO getMovieById(int id);
+
+	MovieDTO getMovieByTitle(String title);
+    
 }

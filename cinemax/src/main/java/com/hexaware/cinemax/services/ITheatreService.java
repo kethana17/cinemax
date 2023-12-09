@@ -13,4 +13,8 @@ public interface ITheatreService {
     void removeTheatreById(int id);
 
     void removeTheatreByName(String name);
+
+	TheatreDTO getTheatreById(int id);
+
+	TheatreDTO getTheatreByName(String name);
 }

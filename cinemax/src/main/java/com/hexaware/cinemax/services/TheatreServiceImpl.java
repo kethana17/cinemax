@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +50,26 @@ public class TheatreServiceImpl implements ITheatreService {
     public void removeTheatreByName(String name) {
         Theatre theatresToRemove = theatreRepository.findByName(name);
         theatreRepository.delete(theatresToRemove);
+    }
+    
+    @Override
+    public TheatreDTO getTheatreById(int id) {
+        Optional<Theatre> optionalTheatre = theatreRepository.findById(id);
+        if (optionalTheatre.isPresent()) {
+            return convertToDTO(optionalTheatre.get());
+        } else {
+            throw new IllegalArgumentException("Theatre not found with ID: " + id);
+        }
+    }
+
+    @Override
+    public TheatreDTO getTheatreByName(String name) {
+        Theatre theatre = theatreRepository.findByName(name);
+        if (theatre != null) {
+            return convertToDTO(theatre);
+        } else {
+            throw new IllegalArgumentException("Theatre not found with name: " + name);
+        }
     }
 
     private TheatreDTO convertToDTO(Theatre theatre) {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,6 +60,27 @@ public class MovieServiceImpl implements IMovieService {
         Movie moviesToRemove = movieRepository.findByTitle(name);
         movieRepository.delete(moviesToRemove);
     }
+    
+    @Override
+    public MovieDTO getMovieById(int id) {
+        Optional<Movie> optionalMovie = movieRepository.findById(id);
+        if (optionalMovie.isPresent()) {
+            return convertToDTO(optionalMovie.get());
+        } else {
+            throw new IllegalArgumentException("Movie not found with ID: " + id);
+        }
+    }
+
+    @Override
+    public MovieDTO getMovieByTitle(String title) {
+        Movie movie = movieRepository.findByTitle(title);
+        if (movie != null) {
+            return convertToDTO(movie);
+        } else {
+            throw new IllegalArgumentException("Movie not found with title: " + title);
+        }
+    }
+    
     // Helper method to convert MovieDTO to Movie entity
     private Movie convertToEntity(MovieDTO movieDTO) {
         Movie movie = new Movie();

@@ -73,4 +73,32 @@ public class MovieRestController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
+    // Get a movie by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<MovieDTO> getMovieById(@PathVariable int id) {
+        logger.info("Retrieving movie with ID: {}", id);
+        try {
+            MovieDTO movie = movieService.getMovieById(id);
+            logger.info("Retrieved movie with ID: {}", id);
+            return new ResponseEntity<>(movie, HttpStatus.OK);
+        } catch (MovieNotFoundException e) {
+            logger.error("Movie not found for ID: {}", id);
+            throw e;
+        }
+    }
+
+    // Get a movie by title
+    @GetMapping("/getByTitle/{title}")
+    public ResponseEntity<MovieDTO> getMovieByTitle(@PathVariable String title) {
+        logger.info("Retrieving movie with title: {}", title);
+        try {
+            MovieDTO movie = movieService.getMovieByTitle(title);
+            logger.info("Retrieved movie with title: {}", title);
+            return new ResponseEntity<>(movie, HttpStatus.OK);
+        } catch (MovieNotFoundException e) {
+            logger.error("Movie not found for title: {}", title);
+            throw e;
+        }
+    }
 }
